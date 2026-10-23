@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<configSections>
+	</configSections>
+	<appSettings>
+		<add key="printerName" value="EPSON L355 Series"/>
+		<add key="Sucursal" value="DH"/>
+	</appSettings>
+	<connectionStrings>
+		<!--Cadenas de conexión de la clínica-->
+		<add name="cnxString" connectionString="Data Source=100.106.68.15\SQLEXPRESS;Initial Catalog=DiagnosticaAjalpan;Persist Security Info=True;User ID=USR_PRUEBA;Password=G_NshV-E8iO8Qs9!goqH6z" providerName="System.Data.SqlClient" />
+		<add name="DiagnosticaHidalgo.Properties.Settings.DiagnosticaHidalgoConnectionString" connectionString="Data Source=100.106.68.15\SQLEXPRESS;Initial Catalog=DiagnosticaAjalpan;User ID=USR_PRUEBA;Password=G_NshV-E8iO8Qs9!goqH6z" providerName="System.Data.SqlClient" />
+	
+	</connectionStrings>
+</configuration>

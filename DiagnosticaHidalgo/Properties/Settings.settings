@@ -1,0 +1,38 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DiagnosticaHidalgo.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="AnalyzerConnectionString" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Data Source=JMENDEZ\SQLEXPRESS;Initial Catalog=Analyzer;Persist Security Info=True;User ID=sa;Password=Admin01+&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Data Source=JMENDEZ\SQLEXPRESS;Initial Catalog=Analyzer;Persist Security Info=True;User ID=sa;Password=Admin01+</Value>
+    </Setting>
+    <Setting Name="AnalyzerConnectionString1" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Data Source=JMENDEZ\SQLEXPRESS;Initial Catalog=Analyzer;User ID=sa;Password=Admin01+&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Data Source=JMENDEZ\SQLEXPRESS;Initial Catalog=Analyzer;User ID=sa;Password=Admin01+</Value>
+    </Setting>
+    <Setting Name="AnalyzerConnectionString2" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Data Source=JMENDEZ\SQLEXPRESS;Initial Catalog=Analyzer;User ID=sa;Password=Admin01+;Connect Timeout=30;TrustServerCertificate=False&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Data Source=JMENDEZ\SQLEXPRESS;Initial Catalog=Analyzer;User ID=sa;Password=Admin01+;Connect Timeout=30;TrustServerCertificate=False</Value>
+    </Setting>
+    <Setting Name="DiagnosticaHidalgoConnectionString" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Data Source=JMENDEZ\SQLEXPRESS;Initial Catalog=DiagnosticaHidalgo;User ID=sa;Password=Admin01+;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Data Source=JMENDEZ\SQLEXPRESS;Initial Catalog=DiagnosticaHidalgo;User ID=sa;Password=Admin01+;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
