@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using DiagnosticaHidalgo.Clases.Seguridad;
 
 namespace DiagnosticaHidalgo.Negocio
 {
@@ -826,7 +827,7 @@ namespace DiagnosticaHidalgo.Negocio
             bool res = false;
             try
             {
-                using (SqlConnection conn = new SqlConnection(C.CONNECTION))
+                using (SqlConnection conn = new SqlConnection(Conexion.ConexionDB()))
                 {
                     conn.Open();
 

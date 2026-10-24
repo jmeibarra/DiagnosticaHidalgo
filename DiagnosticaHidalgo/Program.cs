@@ -1,4 +1,7 @@
-﻿using DiagnosticaHidalgo.Forms;
+﻿using DiagnosticaHidalgo.Clases;
+using DiagnosticaHidalgo.Clases.Seguridad;
+using DiagnosticaHidalgo.Forms;
+using DiagnosticaHidalgo.Negocio;
 using System;
 using System.Windows.Forms;
 
@@ -16,6 +19,7 @@ namespace DiagnosticaHidalgo
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new fPrincipal());
             //Application.Run(new frmVenta());
+            ParametrosSistema.Inicializar(new ParametrosRepositorio(Conexion.ConexionDB()));
             Application.Run(new frmMain());
             //Application.Run(new frmLogin(false));
         }

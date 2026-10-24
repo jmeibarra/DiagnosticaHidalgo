@@ -100,6 +100,8 @@
     <Compile Include="Clases\Modelos\ManejadorError.cs" />
     <Compile Include="Clases\Modelos\RenglonExcel.cs" />
     <Compile Include="Clases\Modelos\TotalCuenta.cs" />
+    <Compile Include="Clases\ParametrosSistema.cs" />
+    <Compile Include="Clases\Seguridad.cs" />
     <Compile Include="Clases\Utilerias.cs" />
     <Compile Include="DataClass.designer.cs">
       <AutoGen>True</AutoGen>
@@ -160,6 +162,9 @@
     </Compile>
     <Compile Include="Forms\frmPagoCliente.Designer.cs">
       <DependentUpon>frmPagoCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmParametrosGenerales.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmReportes.cs">
       <SubType>Form</SubType>
@@ -233,7 +238,7 @@
     <Compile Include="Negocio\LaboratorioNeg.cs" />
     <Compile Include="Negocio\LabPorVentaNeg.cs" />
     <Compile Include="Negocio\PagoNeg.cs" />
-    <Compile Include="Negocio\ParametroGenNeg.cs" />
+    <Compile Include="Negocio\ParametroGeneralNeg.cs" />
     <Compile Include="Negocio\UsuarioNeg.cs" />
     <Compile Include="Negocio\VentaNeg.cs" />
     <Compile Include="Program.cs" />

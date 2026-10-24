@@ -44,6 +44,7 @@ namespace DiagnosticaHidalgo.Forms
             this.tsSaldoPorCliente = new System.Windows.Forms.ToolStripMenuItem();
             this.tsImprimirLaboratorios = new System.Windows.Forms.ToolStripMenuItem();
             this.msItemAgregarUs = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsCorregirFolios = new System.Windows.Forms.ToolStripMenuItem();
             this.msItemSesion = new System.Windows.Forms.ToolStripMenuItem();
             this.btnCitas = new System.Windows.Forms.Button();
             this.chkCotizacion = new System.Windows.Forms.CheckBox();
@@ -80,7 +81,6 @@ namespace DiagnosticaHidalgo.Forms
             this.btnCancelar = new System.Windows.Forms.Button();
             this.txtTotalConDescuento = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.tsCorregirFolios = new System.Windows.Forms.ToolStripMenuItem();
             this.gbDatosPrincipales.SuspendLayout();
             this.menu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gvLaboratorios)).BeginInit();
@@ -216,6 +216,13 @@ namespace DiagnosticaHidalgo.Forms
             this.msItemAgregarUs.Size = new System.Drawing.Size(253, 22);
             this.msItemAgregarUs.Text = "Agregar usuario";
             this.msItemAgregarUs.Click += new System.EventHandler(this.msItemAgregarUs_Click);
+            // 
+            // tsCorregirFolios
+            // 
+            this.tsCorregirFolios.Name = "tsCorregirFolios";
+            this.tsCorregirFolios.Size = new System.Drawing.Size(253, 22);
+            this.tsCorregirFolios.Text = "Corregir folios";
+            this.tsCorregirFolios.Click += new System.EventHandler(this.tsCorregirFolios_Click);
             // 
             // msItemSesion
             // 
@@ -621,13 +628,6 @@ namespace DiagnosticaHidalgo.Forms
             this.label13.Size = new System.Drawing.Size(250, 21);
             this.label13.TabIndex = 0;
             this.label13.Text = "Total aplicando el descuento   $";
-            // 
-            // tsCorregirFolios
-            // 
-            this.tsCorregirFolios.Name = "tsCorregirFolios";
-            this.tsCorregirFolios.Size = new System.Drawing.Size(253, 22);
-            this.tsCorregirFolios.Text = "Corregir folios";
-            this.tsCorregirFolios.Click += new System.EventHandler(this.tsCorregirFolios_Click);
             // 
             // frmVenta
             // 

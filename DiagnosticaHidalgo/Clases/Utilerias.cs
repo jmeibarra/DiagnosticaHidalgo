@@ -3,6 +3,8 @@ using DiagnosticaHidalgo.Properties;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -212,62 +214,39 @@ namespace DiagnosticaHidalgo.Clases
             }
         }
 
- 
+        public static bool EnviarCorteTurnoPorCorreo(string correodestino, string fechacorte, string rutapdf, string rutaexcel)
+        {
+            bool res = false;
+            try
+            {
+                MailMessage correo = new MailMessage();
+                correo.From = new MailAddress(ParametrosSistema.CorreoClinica);
+                correo.To.Add(correodestino);
+                correo.Subject = "Corte Turno Diagnostica Ajalpan " + fechacorte;
+                correo.Body = "Correo enviado desde Diagnostica Ajalpan, que indica se realizó un corte de turno, los detalles se encuentran en los archivos adjuntos.";
 
+                // Adjuntar PDF
+                Attachment adjuntoPdf = new Attachment(rutapdf);
+                correo.Attachments.Add(adjuntoPdf);
 
-        ///// <summary>
-        ///// Método para mandar a imprimir un archivo(que es un arreglo de bytes).
-        ///// </summary>
-        ///// <param name="documento"></param>
-        ///// <param name="pathFile"></param>
-        //public static void Imprimir(byte[] documento, string filePath, string fileName)
-        //{
-        //    if (documento != null)
-        //    {
-        //        File.WriteAllBytes(filePath, documento);
-        //        IPrinter printer = new Printer();
-        //        printer.PrintRawFile(C.NOMBRE_IMPRESORA, filePath, fileName);
-        //    }
-        //}
+                // Adjuntar Excel
+                Attachment adjuntoExcel = new Attachment(rutaexcel);
+                correo.Attachments.Add(adjuntoExcel);
 
-        ///// <summary>
-        ///// Método para mandar a imprimir un archivo(que es un arreglo de bytes).
-        ///// Es necesario tener instalado Adobe Acrobat
-        ///// </summary>
-        ///// <param name="documento"></param>
-        ///// <param name="pathFile"></param>
-        //public static void Imprimir(byte[] documento, string pathFile)
-        //{
-        //    if (documento != null)
-        //    {
-        //        File.WriteAllBytes(pathFile, documento);
+                // Configuración del cliente SMTP
+                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587); // puerto TLS típico
+                smtp.Credentials = new NetworkCredential(ParametrosSistema.CorreoClinica, ParametrosSistema.TokenCorreoClinica);
+                smtp.EnableSsl = true; // activa conexión segura
 
-        //        using (PrintDialog pd = new PrintDialog())
-        //        {
-        //            pd.ShowDialog();
-
-        //            ProcessStartInfo printProcessInfo = new ProcessStartInfo()
-        //            {
-        //                Verb = "print",
-        //                CreateNoWindow = true,
-        //                FileName = pathFile,
-        //                WindowStyle = ProcessWindowStyle.Hidden
-        //            };
-
-        //            Process printProcess = new Process();
-        //            printProcess.StartInfo = printProcessInfo;
-        //            printProcess.Start();
-
-        //            printProcess.WaitForInputIdle();
-
-        //            Thread.Sleep(3000);
-
-        //            if (false == printProcess.CloseMainWindow())
-        //            {
-        //                printProcess.Kill();
-        //            }
-        //        }
-        //    }
-        //}
+                smtp.Send(correo);
+                Console.WriteLine("Correo enviado correctamente.");
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error general: " + ex.Message);
+            }
+            return res;
+        }
     }
 }

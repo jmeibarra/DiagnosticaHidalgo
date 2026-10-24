@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using DiagnosticaHidalgo.Negocio;
 using DiagnosticaHidalgo.Clases;
+using DiagnosticaHidalgo.Clases.Seguridad;
 
 namespace DiagnosticaHidalgo.Forms
 {
@@ -81,7 +82,7 @@ namespace DiagnosticaHidalgo.Forms
 
                 //string mensajeError = "";
                 //Creamos contexto e instancia de UsuarioNeg.
-                string cadenaconnsucursal = C.CONNECTION;
+                string cadenaconnsucursal = Conexion.ConexionDB();
                 if (cmbSucursal.SelectedIndex == 1)
                     cadenaconnsucursal = ParametroGen.Cadena_conexion_sucursa_da();
                 UsuarioNeg oUsuarioNeg = new UsuarioNeg(cadenaconnsucursal);
@@ -101,7 +102,7 @@ namespace DiagnosticaHidalgo.Forms
 
                     if (cmbSucursal.SelectedIndex == 1)
                         oUsuario.Cadenaconn = ParametroGen.Cadena_conexion_sucursa_da();
-                    else oUsuario.Cadenaconn = C.CONNECTION;
+                    else oUsuario.Cadenaconn = Conexion.ConexionDB();
                 }
                 this.DialogResult = DialogResult.OK;
                 this.Close();

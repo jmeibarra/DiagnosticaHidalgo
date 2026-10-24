@@ -44,8 +44,7 @@ namespace DiagnosticaHidalgo
             this.tsCorteRurnoPorDia = new System.Windows.Forms.ToolStripMenuItem();
             this.tsReportes = new System.Windows.Forms.ToolStripMenuItem();
             this.tsNotaVenta = new System.Windows.Forms.ToolStripMenuItem();
-            this.notasPagadasConTarjetaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.devoluciónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsVerNotas = new System.Windows.Forms.ToolStripMenuItem();
             this.tsCerrarSesion = new System.Windows.Forms.ToolStripMenuItem();
             this.tsOperaciones = new System.Windows.Forms.ToolStripMenuItem();
             this.tsPago = new System.Windows.Forms.ToolStripMenuItem();
@@ -157,14 +156,14 @@ namespace DiagnosticaHidalgo
             // tsNuevoLaboratorio
             // 
             this.tsNuevoLaboratorio.Name = "tsNuevoLaboratorio";
-            this.tsNuevoLaboratorio.Size = new System.Drawing.Size(180, 26);
+            this.tsNuevoLaboratorio.Size = new System.Drawing.Size(147, 26);
             this.tsNuevoLaboratorio.Text = "Agregar";
             this.tsNuevoLaboratorio.Click += new System.EventHandler(this.tsNuevoLaboratorio_Click);
             // 
             // consultarLabToolStripMenuItem2
             // 
             this.consultarLabToolStripMenuItem2.Name = "consultarLabToolStripMenuItem2";
-            this.consultarLabToolStripMenuItem2.Size = new System.Drawing.Size(180, 26);
+            this.consultarLabToolStripMenuItem2.Size = new System.Drawing.Size(147, 26);
             this.consultarLabToolStripMenuItem2.Text = "Consultar";
             this.consultarLabToolStripMenuItem2.Click += new System.EventHandler(this.tsConsultarLab_Click);
             // 
@@ -201,25 +200,17 @@ namespace DiagnosticaHidalgo
             // tsNotaVenta
             // 
             this.tsNotaVenta.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.notasPagadasConTarjetaToolStripMenuItem,
-            this.devoluciónToolStripMenuItem});
+            this.tsVerNotas});
             this.tsNotaVenta.Name = "tsNotaVenta";
-            this.tsNotaVenta.Size = new System.Drawing.Size(100, 25);
+            this.tsNotaVenta.Size = new System.Drawing.Size(99, 25);
             this.tsNotaVenta.Text = "Nota Venta";
             // 
-            // notasPagadasConTarjetaToolStripMenuItem
+            // tsVerNotas
             // 
-            this.notasPagadasConTarjetaToolStripMenuItem.Name = "notasPagadasConTarjetaToolStripMenuItem";
-            this.notasPagadasConTarjetaToolStripMenuItem.Size = new System.Drawing.Size(260, 26);
-            this.notasPagadasConTarjetaToolStripMenuItem.Text = "Notas pagadas con tarjeta";
-            this.notasPagadasConTarjetaToolStripMenuItem.Click += new System.EventHandler(this.notasPagadasConTarjetaToolStripMenuItem_Click);
-            // 
-            // devoluciónToolStripMenuItem
-            // 
-            this.devoluciónToolStripMenuItem.Name = "devoluciónToolStripMenuItem";
-            this.devoluciónToolStripMenuItem.Size = new System.Drawing.Size(260, 26);
-            this.devoluciónToolStripMenuItem.Text = "Devolución";
-            this.devoluciónToolStripMenuItem.Click += new System.EventHandler(this.devoluciónToolStripMenuItem_Click);
+            this.tsVerNotas.Name = "tsVerNotas";
+            this.tsVerNotas.Size = new System.Drawing.Size(212, 26);
+            this.tsVerNotas.Text = "Ver Notas de Venta";
+            this.tsVerNotas.Click += new System.EventHandler(this.tsVerNotas_Click);
             // 
             // tsCerrarSesion
             // 
@@ -241,14 +232,14 @@ namespace DiagnosticaHidalgo
             // tsPago
             // 
             this.tsPago.Name = "tsPago";
-            this.tsPago.Size = new System.Drawing.Size(115, 26);
+            this.tsPago.Size = new System.Drawing.Size(114, 26);
             this.tsPago.Text = "Pago";
             this.tsPago.Click += new System.EventHandler(this.tsAgregarPago_Click);
             // 
             // tsDevolucion
             // 
             this.tsDevolucion.Name = "tsDevolucion";
-            this.tsDevolucion.Size = new System.Drawing.Size(115, 26);
+            this.tsDevolucion.Size = new System.Drawing.Size(114, 26);
             // 
             // pnlConfiguraciones
             // 
@@ -653,8 +644,7 @@ namespace DiagnosticaHidalgo
         private System.Windows.Forms.CheckBox chkPrimerFolio;
         private System.Windows.Forms.ToolStripMenuItem tsNuevoLaboratorio;
         private System.Windows.Forms.ToolStripMenuItem consultarLabToolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem notasPagadasConTarjetaToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem devoluciónToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsVerNotas;
         private System.Windows.Forms.ToolStripMenuItem tsCorteTurnoTodos;
         private System.Windows.Forms.ToolStripMenuItem tsCorteRurnoPorDia;
     }

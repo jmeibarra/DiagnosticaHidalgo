@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using DiagnosticaHidalgo.Clases.Seguridad;
 
 namespace DiagnosticaHidalgo.Forms
 {
@@ -31,12 +32,12 @@ namespace DiagnosticaHidalgo.Forms
         /// </summary>
         public Usuario us = null;
         #endregion
-        public frmVenta(Usuario usuario,Configuraciones configuraciones)
+        public frmVenta(Usuario usuario, Configuraciones configuraciones)
         {
             InitializeComponent();
             this.us = usuario;
             this.config = configuraciones;
-            laboratorioNeg = new LaboratorioNeg(C.CONNECTION);
+            laboratorioNeg = new LaboratorioNeg(Conexion.ConexionDB());
 
             /*Cambiar estilos*/
             foreach (Control gb in this.Controls)
@@ -72,7 +73,7 @@ namespace DiagnosticaHidalgo.Forms
                 //Verificar si ya hubo corte de turno
                 if (this.IdCorteTurno == -1)
                 {
-                    CorteTurnoNeg corteTurnoNeg = new CorteTurnoNeg(C.CONNECTION);
+                    CorteTurnoNeg corteTurnoNeg = new CorteTurnoNeg(Conexion.ConexionDB());
                     CorteTurno corteTurno = corteTurnoNeg.ObtenerSinFechaFin();
                     if (corteTurno != null)
                         this.IdCorteTurno = corteTurno.IdCorteTurno;
@@ -95,8 +96,8 @@ namespace DiagnosticaHidalgo.Forms
         private void btnAgregarCliente_Click(object sender, EventArgs e)
         {
             try
-            {                
-                using (frmCliente fNuevo = new frmCliente(us,-1))
+            {
+                using (frmCliente fNuevo = new frmCliente(us, -1))
                 {
                     fNuevo.ShowDialog();
 
@@ -126,7 +127,7 @@ namespace DiagnosticaHidalgo.Forms
                     f.ShowDialog();
                     if (f.nuevo_registro)
                     {
-                        using (frmDoctor fNuevo = new frmDoctor(us,-1))
+                        using (frmDoctor fNuevo = new frmDoctor(us, -1))
                         {
                             fNuevo.ShowDialog();
 
@@ -155,7 +156,7 @@ namespace DiagnosticaHidalgo.Forms
             try
             {
                 chkDescuento.Checked = false;
-                using (frmConsultarLaboratorios f = new frmConsultarLaboratorios(C.CONNECTION,false, -1))
+                using (frmConsultarLaboratorios f = new frmConsultarLaboratorios(Conexion.ConexionDB(), false, -1))
                 {
                     f.ShowDialog();
 
@@ -247,7 +248,7 @@ namespace DiagnosticaHidalgo.Forms
                     this.AlimentarVenta();
                     if (chkCotizacion.Checked)
                     {
-                        ventaNeg = new VentaNeg(C.CONNECTION);
+                        ventaNeg = new VentaNeg(Conexion.ConexionDB());
                         this.venta.IdCorteTurno = this.IdCorteTurno;
                         if (ventaNeg.AgregarCotizacion(this.venta, laboratorios, ref msjError))
                         {
@@ -268,12 +269,12 @@ namespace DiagnosticaHidalgo.Forms
                     }
                     else
                     {
-                        using (frmPago f = new frmPago(C.CONNECTION, false, venta.Total.Value, venta.Total.Value, 1, -1))
+                        using (frmPago f = new frmPago(Conexion.ConexionDB(), false, venta.Total.Value, venta.Total.Value, 1, -1))
                         {
                             if (f.ShowDialog() == DialogResult.OK)
                             {
                                 //Agregar Venta, laboratorios por venta y primer Pago
-                                ventaNeg = new VentaNeg(C.CONNECTION);
+                                ventaNeg = new VentaNeg(Conexion.ConexionDB());
                                 this.venta.IdCorteTurno = this.IdCorteTurno;
                                 if (f.pago.Cantidad > this.venta.Total)
                                 {
@@ -538,7 +539,7 @@ namespace DiagnosticaHidalgo.Forms
                 return "Debe existir al menos un laboratorio.";
             else
             { //Verificar si el usuario existe
-                UsuarioNeg oUsNeg = new UsuarioNeg(C.CONNECTION);
+                UsuarioNeg oUsNeg = new UsuarioNeg(Conexion.ConexionDB());
                 int IdUs = oUsNeg.ObtenerIdUsuarioPorClave(txtClaveUs.Text.Trim());
                 if (IdUs > 0)
                     this.venta.IdUsuario = IdUs;
@@ -581,7 +582,7 @@ namespace DiagnosticaHidalgo.Forms
             try
             {
                 btnPagar.Enabled = true;
-                ventaNeg = new VentaNeg(C.CONNECTION);
+                ventaNeg = new VentaNeg(Conexion.ConexionDB());
                 //Inicializamos los objetos
                 this.lLabResumido = new List<LabResumido>();
                 this.laboratorios = new List<LabPorVenta>();
@@ -602,7 +603,7 @@ namespace DiagnosticaHidalgo.Forms
                 txtDescripcion.Enabled = false;
 
                 //Obtener el doctor -A QUIEN CORRESPONDA-
-                DoctorNeg doctorNeg = new DoctorNeg(C.CONNECTION);
+                DoctorNeg doctorNeg = new DoctorNeg(Conexion.ConexionDB());
                 Doctor doctor = doctorNeg.ObtenerA_QUIEN_CORRESPONDA();
                 this.venta.IdDoctor = doctor.IdDoctor;
                 txtDoctor.Text = doctor.Nombre;
@@ -814,7 +815,7 @@ namespace DiagnosticaHidalgo.Forms
         {
             try
             {
-                using (frmUsuario f = new frmUsuario(C.CONNECTION, true, -1))
+                using (frmUsuario f = new frmUsuario(Conexion.ConexionDB(), true, -1))
                 {
                     if (f.ShowDialog() == DialogResult.OK) Utilerias.MostrarMensaje("Usuario agregado correctamente.");
                 }
@@ -845,11 +846,31 @@ namespace DiagnosticaHidalgo.Forms
                         {
                             //Crear el corte de turno
                             string mensajeerror = "";
-                            CorteTurnoNeg corteTurnoNeg = new CorteTurnoNeg(C.CONNECTION);
+                            CorteTurnoNeg corteTurnoNeg = new CorteTurnoNeg(Conexion.ConexionDB());
                             int idCorteTurnoFinalizado = corteTurnoNeg.Finalizar(ref mensajeerror);
                             if (string.IsNullOrEmpty(mensajeerror))
                             {
-                                using (frmCorteTurno fCT = new frmCorteTurno(C.CONNECTION,idCorteTurnoFinalizado, true, false, false, this.config))
+                                /********************* Enviar correo con el corte de turno, adjunto el pdf y excel ******************************/
+                                if (ParametrosSistema.EnviarCorreoCorteTurnoPorCorreo)
+                                {
+                                    CorteTurno corte = corteTurnoNeg.ObtenerPorId(idCorteTurnoFinalizado);
+                                    string fechainiciocorte = corte.FechaInicio?.ToString("ddMMMMyyyy_HHmmss");
+                                    string directorio = C.PathTEMP;
+                                    string nombrearchexcel = "ReporteDetallado" + fechainiciocorte + ".xlsx";
+                                    string filePathexcel = directorio + nombrearchexcel;
+                                    corteTurnoNeg.CrearReporteDetalladoPorCorteTurno(idCorteTurnoFinalizado, filePathexcel);
+                                    byte[] arch = corteTurnoNeg.CrearPDF(config.Empresa, corte.FechaInicio?.ToString()
+                                        , Utilerias.ObtenerConDosDecimales(Convert.ToDouble(corte.TotalCtas.Value))
+                                        , Utilerias.ObtenerConDosDecimales(Convert.ToDouble(corte.TotalEfectivo))
+                                        , Utilerias.ObtenerConDosDecimales(Convert.ToDouble(corte.MontoTotal))
+                                        , idCorteTurnoFinalizado);
+                                    string fileName = "CORTE_TURNO_" + fechainiciocorte + ".pdf";
+                                    string filePathpdf = directorio + fileName;
+                                    System.IO.File.WriteAllBytes(filePathpdf, arch);
+                                    Utilerias.EnviarCorteTurnoPorCorreo(ParametrosSistema.CorreoEnvioCorteTurno, fechainiciocorte, filePathpdf, filePathexcel);
+                                }
+                                /*********************Enviar correo con el corte de turno, adjunto el pdf ******************************/
+                                using (frmCorteTurno fCT = new frmCorteTurno(Conexion.ConexionDB(), idCorteTurnoFinalizado, true, false, false, this.config))
                                 {
                                     fCT.ShowDialog();
                                 }
@@ -903,7 +924,7 @@ namespace DiagnosticaHidalgo.Forms
         private void tsSaldoPorCliente_Click(object sender, EventArgs e)
         {
             //Mostrar formulario para mostrar saldo pendiente de un cliente
-            using (frmSaldoPendiente f = new frmSaldoPendiente(C.CONNECTION))
+            using (frmSaldoPendiente f = new frmSaldoPendiente(Conexion.ConexionDB()))
             {
                 f.ShowDialog();
             }
@@ -974,7 +995,7 @@ namespace DiagnosticaHidalgo.Forms
             try
             {
                 //Mostrar modal de confirmación
-                using (frmCorteTurno f = new frmCorteTurno(C.CONNECTION,this.IdCorteTurno, false, true, cotizaciones, this.config))
+                using (frmCorteTurno f = new frmCorteTurno(Conexion.ConexionDB(), this.IdCorteTurno, false, true, cotizaciones, this.config))
                 {
                     if (f.ShowDialog() == DialogResult.OK)
                     {
@@ -982,7 +1003,7 @@ namespace DiagnosticaHidalgo.Forms
                         //cargar nota de venta a partir de una cotización
                         this.InicializarVenta();
                         //Obtener nota de venta
-                        VentaNeg oVentaNeg = new VentaNeg(C.CONNECTION);
+                        VentaNeg oVentaNeg = new VentaNeg(Conexion.ConexionDB());
                         Cotizacion oCotizacion = oVentaNeg.ObtenerCotizacionPorId(idVenta);
                         ActualizarFormVenta(oCotizacion);
                     }
@@ -1028,7 +1049,7 @@ namespace DiagnosticaHidalgo.Forms
             {
                 if (Horarios.tienehorario(cotizacion.labResumidos[i].Familia))
                 {
-                    using (FHorario f = new FHorario(C.CONNECTION,cotizacion.labResumidos[i].Familia, cotizacion.labResumidos[i].Clave, cotizacion.labResumidos[i].Nombre, horariosocupados))
+                    using (FHorario f = new FHorario(Conexion.ConexionDB(), cotizacion.labResumidos[i].Familia, cotizacion.labResumidos[i].Clave, cotizacion.labResumidos[i].Nombre, horariosocupados))
                     {
                         if (f.ShowDialog() == DialogResult.OK)
                         {
@@ -1067,7 +1088,7 @@ namespace DiagnosticaHidalgo.Forms
         {
             try
             {
-                using (fCitas f = new fCitas(C.CONNECTION))
+                using (fCitas f = new fCitas(Conexion.ConexionDB()))
                 {
                     f.ShowDialog();
                 }

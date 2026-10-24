@@ -67,7 +67,6 @@ namespace DiagnosticaHidalgo.Clases
         //public const string PAGO_TDD = "TARJETA_CREDITO";
         //public const string PAGO_TRANSFERENCIA = "TRANSFERENCIA";
         #endregion
-        public static string CONNECTION = ConfigurationManager.ConnectionStrings["cnxString"].ToString();
         public static string NOMBRE_IMPRESORA = ConfigurationManager.AppSettings["printerName"].ToString();
         public static string SUCURSAL = ConfigurationManager.AppSettings["Sucursal"].ToString();
     }

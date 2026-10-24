@@ -10,6 +10,7 @@ using DiagnosticaHidalgo.Clases.Modelos;
 using DiagnosticaHidalgo.Negocio;
 using DiagnosticaHidalgo.Properties;
 using DiagnosticaHidalgo.Forms;
+using DiagnosticaHidalgo.Clases.Seguridad;
 
 namespace DiagnosticaHidalgo
 {
@@ -124,7 +125,7 @@ namespace DiagnosticaHidalgo
             try
             {
                 bool bIniciarSesion = false;
-                using (frmVenta f = new frmVenta(InstanciarUsSinSesion(),this.configuraciones))
+                using (frmVenta f = new frmVenta(InstanciarUsSinSesion(), this.configuraciones))
                 {
                     this.Visible = false;
                     if (f.ShowDialog() == DialogResult.OK)
@@ -158,6 +159,11 @@ namespace DiagnosticaHidalgo
             tipoPanel = TipoPanel.Configuracion;
             CambiarPanel();
             this.CargarConfiguraciones();
+
+            var repo = new ParametrosRepositorio(oUsuario.Cadenaconn);
+            using (var frm = new FrmParametrosGenerales(repo))
+                frm.ShowDialog(this);
+            ParametrosSistema.Recargar();
         }
         /// <summary>
         /// Guarda los cambios hechos en configuraciones
@@ -400,7 +406,7 @@ namespace DiagnosticaHidalgo
                         }
                     }
 
-                    foreach (DataGridViewColumn item in gvRegistros.Columns) 
+                    foreach (DataGridViewColumn item in gvRegistros.Columns)
                         item.SortMode = DataGridViewColumnSortMode.NotSortable;
                 }
                 catch (Exception ex)
@@ -568,9 +574,9 @@ namespace DiagnosticaHidalgo
                     gvRegistros.DataSource = doctorNeg.ObtenerPorFiltros(txtPrimero.Text.Trim(), txtSegundo.Text.Trim());
                     break;
                 case TipoPanel.CorteTurnoTodos:
-                    
-                    fechaInicio = new DateTime(dtpFechaDesde.Value.Year, dtpFechaDesde.Value.Month, dtpFechaDesde.Value.Day, 0,0,0);
-                    fechaFin = new DateTime(dtpFechaHasta.Value.Year, dtpFechaHasta.Value.Month, dtpFechaHasta.Value.Day,23,59,59);
+
+                    fechaInicio = new DateTime(dtpFechaDesde.Value.Year, dtpFechaDesde.Value.Month, dtpFechaDesde.Value.Day, 0, 0, 0);
+                    fechaFin = new DateTime(dtpFechaHasta.Value.Year, dtpFechaHasta.Value.Month, dtpFechaHasta.Value.Day, 23, 59, 59);
                     gvRegistros.DataSource = corteTurnoNeg.ObtenerPorFiltros(fechaInicio, fechaFin);
                     break;
                 case TipoPanel.CorteTurnoPordia:
@@ -624,7 +630,7 @@ namespace DiagnosticaHidalgo
                     {
                         this.Visible = false;
                         if (f.ShowDialog() == DialogResult.OK)
-                        {                            
+                        {
                             gvRegistros.DataSource = null;
                             gvRegistros.DataSource = usuarioNeg.ObtenerTodos();
                             Actualizar_gvRegistros();
@@ -669,7 +675,7 @@ namespace DiagnosticaHidalgo
                 }
                 else if (C.COLUMNA_MODIFICAR == nombreColumna) //Editar 
                 {
-                    using (frmCliente f = new frmCliente(oUsuario,Id))
+                    using (frmCliente f = new frmCliente(oUsuario, Id))
                     {
                         if (f.ShowDialog() == DialogResult.OK)
                         {
@@ -710,7 +716,7 @@ namespace DiagnosticaHidalgo
             if (nombreColumna == C.COLUMNA_VERNOTAS)
             {
                 int Id = (int)gvRegistros["Id", renglon].Value;
-                using (frmCorteTurno f = new frmCorteTurno(oUsuario.Cadenaconn,Id, true,false,false, this.configuraciones))
+                using (frmCorteTurno f = new frmCorteTurno(oUsuario.Cadenaconn, Id, true, false, false, this.configuraciones))
                 {
                     f.ShowDialog();
                 }
@@ -762,7 +768,7 @@ namespace DiagnosticaHidalgo
                 }
                 else if (C.COLUMNA_MODIFICAR == nombreColumna) //Editar 
                 {
-                    using (frmDoctor f = new frmDoctor(oUsuario,Id))
+                    using (frmDoctor f = new frmDoctor(oUsuario, Id))
                     {
                         if (f.ShowDialog() == DialogResult.OK)
                         {
@@ -787,7 +793,7 @@ namespace DiagnosticaHidalgo
         /// <param name="e"></param>
         private void tsConsultarLab_Click(object sender, EventArgs e)
         {
-            using (frmConsultarLaboratorios frm = new frmConsultarLaboratorios(oUsuario.Cadenaconn,true, -1))
+            using (frmConsultarLaboratorios frm = new frmConsultarLaboratorios(oUsuario.Cadenaconn, true, -1))
             {
                 tipoPanel = TipoPanel.Ninguno;
                 CambiarPanel();
@@ -799,7 +805,7 @@ namespace DiagnosticaHidalgo
         {
             btnBuscar_Click(btnBuscar, null);
             if (gvRegistros.RowCount == 0) Utilerias.MostrarMensaje("No existen cortes de turno en las fechas especificadas.");
-        }               
+        }
 
         #region Sesión de Usuario Administrador
         /// <summary>
@@ -816,7 +822,7 @@ namespace DiagnosticaHidalgo
         /// Método para cerrar sesión del usuario administrador.
         /// </summary>
         public void CerrarSesion()
-        {            
+        {
             this.oUsuario = new Usuario();
             foreach (Control c in this.Controls)
             {
@@ -853,7 +859,7 @@ namespace DiagnosticaHidalgo
         /// <param name="e"></param>
         private void tsReportes_Click(object sender, EventArgs e)
         {
-            using (frmReportes f = new frmReportes(oUsuario,this.configuraciones))
+            using (frmReportes f = new frmReportes(oUsuario, this.configuraciones))
             {
                 f.ShowDialog();
 
@@ -866,7 +872,7 @@ namespace DiagnosticaHidalgo
             {
                 txtPrimerFolio.Text = this.configuraciones.PrimerFolio.ToString();
             }
-                txtPrimerFolio.Enabled = chkPrimerFolio.Checked;
+            txtPrimerFolio.Enabled = chkPrimerFolio.Checked;
         }
 
         private void tsNuevoLaboratorio_Click(object sender, EventArgs e)
@@ -894,22 +900,6 @@ namespace DiagnosticaHidalgo
         }
         #endregion
 
-        private void notasPagadasConTarjetaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (fNotasTarjeta frm = new fNotasTarjeta(oUsuario,this.configuraciones))
-            {
-                frm.ShowDialog();
-            }
-        }
-
-        private void devoluciónToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (frmDevolucion f = new frmDevolucion(oUsuario))
-            {
-                f.ShowDialog();
-
-            }
-        }
 
         /// <summary>
         /// Clic en la opción de consultar cortes de turno.
@@ -930,9 +920,41 @@ namespace DiagnosticaHidalgo
             btnBuscar_Click(btnBuscar, null);
         }
 
-        private Usuario InstanciarUsSinSesion() {
-            Usuario usss = new Usuario() { Administrador=false, Cadenaconn=C.CONNECTION };
+        private Usuario InstanciarUsSinSesion()
+        {
+            Usuario usss = new Usuario() { Administrador = false, Cadenaconn = Conexion.ConexionDB() };
             return usss;
+        }
+
+        private void tsVerNotas_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int idcorteturno = -1;
+                CorteTurnoNeg corteTurnoNeg = new CorteTurnoNeg(oUsuario.Cadenaconn);
+                CorteTurno corteTurno = corteTurnoNeg.ObtenerSinFechaFin();
+                if (corteTurno != null)
+                    idcorteturno = corteTurno.IdCorteTurno;
+                //Mostrar modal de confirmación
+                using (frmCorteTurno f = new frmCorteTurno(oUsuario.Cadenaconn, idcorteturno, false, true, false, this.configuraciones))
+                {
+                    if (f.ShowDialog() == DialogResult.OK)
+                    {
+                        //int idVenta = f.IdVenta;
+                        ////cargar nota de venta a partir de una cotización
+                        //this.InicializarVenta();
+                        ////Obtener nota de venta
+                        //VentaNeg oVentaNeg = new VentaNeg(Conexion.ConexionDB());
+                        //Cotizacion oCotizacion = oVentaNeg.ObtenerCotizacionPorId(idVenta);
+                        //ActualizarFormVenta(oCotizacion);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Utilerias.RegistrarLogError(ex, C_CLASE, "MostrarVentas", "Clave Usuario: " + oUsuario.Clave);
+                Utilerias.MostrarMensaje(ex.Message);
+            }
         }
     }
 }
