@@ -634,7 +634,9 @@ namespace DiagnosticaHidalgo.Forms
                 //IdCliente se obtiene al dar click en el botón "Agregar cliente"
                 //IdUsuario se obtiene al validar los campos
                 //IdDoctor se obtiene al dar click en el botón "Agregar doctor"
-                this.venta.Total = Convert.ToDecimal(txtTotal.Text.Trim());
+                decimal totalLineas = 0;
+                foreach (var l in laboratorios) totalLineas += Convert.ToDecimal(l.Total);
+                this.venta.Total = totalLineas;
                 double subTotal = (double)this.venta.Total / 1.16;
 
                 if (string.IsNullOrEmpty(txtDescuento.Text)) { this.venta.Descuento = -1; }
@@ -748,7 +750,6 @@ namespace DiagnosticaHidalgo.Forms
                 //else
                 txtPUnitario.Text = this.laboratorio.PrecioVenta != null ? this.laboratorio.PrecioVenta.Value.ToString() : "";
                 txtImporte.Text = txtPUnitario.Text;
-                txtTotal.Text = venta.Total + txtImporte.Text;
 
                 //Deshabilitar los campos del laboratorio
                 txtCantidad.Enabled = true;
@@ -858,16 +859,38 @@ namespace DiagnosticaHidalgo.Forms
                                     string directorio = C.PathTEMP;
                                     string nombrearchexcel = "ReporteDetallado" + fechainiciocorte + ".xlsx";
                                     string filePathexcel = directorio + nombrearchexcel;
-                                    corteTurnoNeg.CrearReporteDetalladoPorCorteTurno(idCorteTurnoFinalizado, filePathexcel);
-                                    byte[] arch = corteTurnoNeg.CrearPDF(config.Empresa, corte.FechaInicio?.ToString()
-                                        , Utilerias.ObtenerConDosDecimales(Convert.ToDouble(corte.TotalCtas.Value))
-                                        , Utilerias.ObtenerConDosDecimales(Convert.ToDouble(corte.TotalEfectivo))
-                                        , Utilerias.ObtenerConDosDecimales(Convert.ToDouble(corte.MontoTotal))
-                                        , idCorteTurnoFinalizado);
                                     string fileName = "CORTE_TURNO_" + fechainiciocorte + ".pdf";
                                     string filePathpdf = directorio + fileName;
-                                    System.IO.File.WriteAllBytes(filePathpdf, arch);
-                                    Utilerias.EnviarCorteTurnoPorCorreo(ParametrosSistema.CorreoEnvioCorteTurno, fechainiciocorte, filePathpdf, filePathexcel);
+
+                                    try
+                                    {
+                                        corteTurnoNeg.CrearReporteDetalladoPorCorteTurno(idCorteTurnoFinalizado, filePathexcel);
+
+                                        byte[] arch = corteTurnoNeg.CrearPDF(config.Empresa, corte.FechaInicio?.ToString()
+                                            , Utilerias.ObtenerConDosDecimales(Convert.ToDouble(corte.TotalCtas.Value))
+                                            , Utilerias.ObtenerConDosDecimales(Convert.ToDouble(corte.TotalEfectivo))
+                                            , Utilerias.ObtenerConDosDecimales(Convert.ToDouble(corte.MontoTotal))
+                                            , idCorteTurnoFinalizado);
+
+                                        System.IO.File.WriteAllBytes(filePathpdf, arch);
+
+                                        Utilerias.EnviarCorteTurnoPorCorreo(ParametrosSistema.CorreoEnvioCorteTurno, fechainiciocorte, filePathpdf, filePathexcel);
+                                    }
+                                    finally
+                                    {
+                                        try
+                                        {
+                                            if (System.IO.File.Exists(filePathpdf))
+                                                System.IO.File.Delete(filePathpdf);
+
+                                            if (System.IO.File.Exists(filePathexcel))
+                                                System.IO.File.Delete(filePathexcel);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            // Opcional: registrar el error; no debe romper el flujo del corte
+                                        }
+                                    }
                                 }
                                 /*********************Enviar correo con el corte de turno, adjunto el pdf ******************************/
                                 using (frmCorteTurno fCT = new frmCorteTurno(Conexion.ConexionDB(), idCorteTurnoFinalizado, true, false, false, this.config))
@@ -956,7 +979,7 @@ namespace DiagnosticaHidalgo.Forms
                     if (nombreColumna == C.COLUMNA_ELIMINAR) //Eliminar
                     {
                         //gvLaboratorios.DataSource = null;
-                        double importe = Convert.ToDouble(lLabResumido[e.RowIndex].Cantidad * lLabResumido[e.RowIndex].Costo);
+                        double importe = Convert.ToDouble(lLabResumido[e.RowIndex].Costo);   // Costo ya es el total del renglón
                         this.lLabResumido.RemoveAt(e.RowIndex);
                         this.laboratorios.RemoveAt(e.RowIndex);
                         ActualizarGVLaboratorios();

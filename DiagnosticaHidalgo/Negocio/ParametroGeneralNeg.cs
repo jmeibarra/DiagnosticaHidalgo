@@ -18,11 +18,11 @@ namespace DiagnosticaHidalgo.Negocio
         #region Consultar
         public static string Cadena_conexion_sucursa_da()
         {
-            return "Data Source=100.106.68.15\\SQLEXPRESS;" +
+            return "Data Source=100.93.165.16;" +
                     "Initial Catalog=DAjalpan;" +
                     "Persist Security Info=True;" +
-                    "User ID=sa;" +
-                    "Password=_8CU4*'+EMTqaw$;";
+                    "User ID=AppDAjalpan;" +
+                    "Password=NrfzWMK1z6R4h2cTqe$B-xFP;";
         }
         #endregion
     }
